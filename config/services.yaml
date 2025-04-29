@@ -27,3 +27,7 @@ services:
             $mailerAppUrl: '%env(MAILER_APP_URL)%'
             $mailerApiHeader: '%env(MAILER_API_HEADER)%'
             $mailerApiKey: '%env(MAILER_API_KEY)%'
+    App\Doctrine\CurrentUserExtension:
+        tags:
+            - { name: api_platform.doctrine.orm.query_extension.collection }
+            - { name: api_platform.doctrine.orm.query_extension.item }
