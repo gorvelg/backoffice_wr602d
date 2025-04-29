@@ -13,7 +13,6 @@ use App\Validator as CustomAssert;
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\UniqueConstraint(name: 'UNIQ_IDENTIFIER_EMAIL', fields: ['email'])]
 #[UniqueEntity(fields: ['email'], message: 'There is already an account with this email')]
-#[CustomAssert\UsernameConstraint]
 #[ApiResource()]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
@@ -43,6 +42,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column]
     private bool $isVerified = false;
+
+    #[ORM\Column(length: 255)]
+    #[CustomAssert\UsernameConstraint]
+    private ?string $username = null;
 
     public function getId(): ?int
     {
@@ -127,6 +130,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setIsVerified(bool $isVerified): static
     {
         $this->isVerified = $isVerified;
+
+        return $this;
+    }
+
+    public function getUsername(): ?string
+    {
+        return $this->username;
+    }
+
+    public function setUsername(string $username): static
+    {
+        $this->username = $username;
 
         return $this;
     }
