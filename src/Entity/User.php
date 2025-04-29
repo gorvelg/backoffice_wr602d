@@ -16,6 +16,12 @@ use App\Validator as CustomAssert;
 #[ApiResource()]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
+
+    public function __construct()
+    {
+        $this->roles = ['ROLE_USER'];
+    }
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
