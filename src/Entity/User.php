@@ -9,11 +9,21 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use App\Validator as CustomAssert;
+use ApiPlatform\Metadata\Post;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\UniqueConstraint(name: 'UNIQ_IDENTIFIER_EMAIL', fields: ['email'])]
 #[UniqueEntity(fields: ['email'], message: 'There is already an account with this email')]
-#[ApiResource()]
+#[ApiResource(
+    operations:[
+        new Post(
+            uriTemplate: '/api/user/register',
+            routeName: 'api_register',
+            description: 'Inscription d\'un utilisateur',
+            name: 'api_register',
+        ),
+    ]
+)]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
 

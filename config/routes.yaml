@@ -5,3 +5,6 @@ controllers:
     type: attribute
 api_login_check:
     path: /api/login_check
+api_register:
+    path: /api/user/register
+    controller: App\Api\ApiRegisterController::register
