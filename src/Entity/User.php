@@ -61,7 +61,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column(length: 255)]
     #[CustomAssert\UsernameConstraint]
-    private ?string $username = null;
+    private ?string $pseudo = null;
 
     public function getId(): ?int
     {
@@ -150,15 +150,21 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function getUsername(): ?string
+    /**
+     * @return string|null
+     */
+    public function getPseudo(): ?string
     {
-        return $this->username;
+        return $this->pseudo;
     }
 
-    public function setUsername(string $username): static
+    /**
+     * @param string|null $pseudo
+     */
+    public function setPseudo(?string $pseudo): void
     {
-        $this->username = $username;
-
-        return $this;
+        $this->pseudo = $pseudo;
     }
+
+
 }
