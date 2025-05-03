@@ -3,7 +3,7 @@
 namespace App\EventListener;
 
 use App\Entity\GameScore;
-use Symfony\Component\Security\Core\Security;
+use Symfony\Bundle\SecurityBundle\Security;
 use Doctrine\ORM\Event\PrePersistEventArgs;
 use Doctrine\ORM\Events;
 use Symfony\Component\EventDispatcher\Attribute\AsEntityListener;
@@ -17,8 +17,12 @@ class GameScoreListener
 
     public function prePersist(GameScore $gameScore, PrePersistEventArgs $event): void
     {
+        dump('PRE_PERSIST déclenché');
+        dump($this->security->getUser());
+        die();
+
         if (!$this->security->getUser()) {
-            return;  // Si aucun utilisateur connecté, on n'associe pas d'utilisateur
+            return;
         }
 
         $gameScore->setUser($this->security->getUser());

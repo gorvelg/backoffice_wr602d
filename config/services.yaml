@@ -31,3 +31,9 @@ services:
         tags:
             - { name: api_platform.doctrine.orm.query_extension.collection }
             - { name: api_platform.doctrine.orm.query_extension.item }
+    App\DataPersister\GameScoreDataPersister:
+        decorates: 'api_platform.doctrine.orm.state.persist_processor'
+        arguments:
+            $persistProcessor: '@App\DataPersister\GameScoreDataPersister.inner'
+            $security: '@security.helper'
+        tags: [ 'api_platform.state_processor' ]
