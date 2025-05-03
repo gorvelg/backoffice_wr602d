@@ -25,7 +25,14 @@ use App\Entity\User;
         ),
         new GetCollection(
             uriTemplate: '/scores',
-            description: 'Récupération des parties'
+            description: 'Récupération des parties',
+            security: "is_granted('ROLE_USER')"
+        ),
+        new GetCollection(
+            uriTemplate: '/scores/public',
+            description: 'Récupération publique des scores',
+            security: 'is_granted("PUBLIC_ACCESS")',
+            name: 'public_scores'
         )
     ],
     normalizationContext: ['groups' => ['game:read']],
