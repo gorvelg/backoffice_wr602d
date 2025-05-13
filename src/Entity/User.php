@@ -13,6 +13,7 @@ use App\Validator as CustomAssert;
 use ApiPlatform\Metadata\Post;
 use Symfony\Component\Serializer\Attribute\Groups;
 use Symfony\Component\Uid\Ulid;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[UniqueEntity(fields: ['email'], message: 'There is already an account with this email')]
@@ -39,18 +40,28 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ApiProperty(identifier: true)]
     private ?Ulid $uid = null;
 
+    #[Assert\NotBlank(message: 'Email is required')]
+    #[Assert\Email(message: 'The email "{{ value }}" is not a valid email.')]
     #[ORM\Column(length: 180, unique: true)]
     private ?string $email = null;
 
     #[ORM\Column]
     private array $roles = [];
 
+    #[Assert\NotBlank(message: 'Password is required')]
+    #[Assert\Length(
+        min: 6,
+        max: 4096,
+        minMessage: 'Your password should be at least {{ limit }} characters',
+        maxMessage: 'Your password should not be longer than {{ limit }} characters'
+    )]
     #[ORM\Column]
     private ?string $password = null;
 
     #[ORM\Column]
     private bool $isVerified = false;
 
+    #[Groups(['game:read'])]
     #[ORM\Column(length: 255)]
     #[CustomAssert\UsernameConstraint]
     private ?string $pseudo = null;
