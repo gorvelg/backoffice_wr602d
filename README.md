@@ -13,6 +13,65 @@
 
 ### 1. Start containers
 
+```yml
+version: '3.8'
+services:
+    web:
+        image: mmi3docker/symfony-2024
+        container_name: wr602
+        hostname: symfony-web
+        restart: always
+        ports:
+            - "8319:80"
+        depends_on:
+            - db
+        volumes:
+            - ./www/:/var/www/
+            - ./sites/:/etc/apache2/sites-enabled/
+
+    db:
+        image: mariadb:10.8
+        container_name: wr602-db
+        hostname: symfony-db
+        ports:
+            - "3306:3306"  
+        restart: always
+        volumes:
+            - db-volume:/var/lib/mysql
+        environment:
+            MYSQL_ROOT_PASSWORD: PASSWORD
+            MYSQL_DATABASE: WR602
+            MYSQL_USER: WR602User
+            MYSQL_PASSWORD: PASSWORD
+
+    phpmyadmin:
+        image: phpmyadmin/phpmyadmin
+        container_name: wr602-adminsql
+        hostname: symfony-adminsql
+        restart: always
+        ports:
+            - "8089:80"
+        environment:
+            PMA_HOST: db
+            MYSQL_ROOT_PASSWORD: PASSWORD
+            MYSQL_USER: symfony
+            MYSQL_PASSWORD: PASSWORD
+            MYSQL_DATABASE: symfony
+
+    maildev:
+        image: maildev/maildev
+        container_name: wr602-mail
+        hostname: symfony-mail
+        command: bin/maildev --web 1080 --smtp 1025 --hide-extensions STARTTLS
+        restart: always
+        ports:
+            - "1080:1080"
+            - "1025:1025"  # Assure-toi que le port SMTP est bien exposé
+
+volumes:
+    db-volume:
+```
+
 ```bash
 docker-compose up -d
 ```
