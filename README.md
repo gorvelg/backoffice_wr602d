@@ -134,4 +134,31 @@ php bin/console doctrine:migrations:migrate
 
 ## Microservice Configuration
 
+### 1. Access and install dependencies
+
+```bash
+cd /var/www/micro-service-wr602d
+composer install
+```
+
+---
+
+### 2. Create `.env.local` file
+
+```bash
+nano .env.local
+```
+
+Paste the following content:
+
+```dotenv
+MAILER_NO_REPLY_EMAIL="noreply@game-wr602.fr"
+MAILER_REPLY_NAME="support@game-wr602.fr"
+MAILER_FROM_NAME="Game WR602"
+MAILER_API_HEADER="authorization-api-mailer"
+MAILER_API_KEY="ggerggregeg"
+```
+
+---
+
 
